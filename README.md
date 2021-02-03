@@ -53,13 +53,6 @@ bugly-boot-admin 服务异常展示，分析，通知用户的平台
 
 4.下拉选中框的时候就查询
 
-spring:
-  datasource:
-    url: jdbc:mysql://52.81.200.154:30013/bugly?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: manniu2020
-    type: com.alibaba.druid.pool.DruidDataSource
 
 # 效果图
 <p align="center" >

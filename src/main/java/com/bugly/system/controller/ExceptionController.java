@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,6 +66,12 @@ public class ExceptionController {
             SysUser sysUser = sysUserDao.findByName(username);
             serviceTypes =  serviceTypeDao.findByUserId(sysUser.getId());
         }
+        ServiceType serviceType = new ServiceType();
+        serviceType.setServiceName("全部");
+        serviceType.setCtime(new Date());
+
+        serviceTypes.add(serviceType);
+        serviceTypes.sort(Comparator.comparing(ServiceType::getCtime).reversed());
         model.addAttribute("serviceTypes", JSONArray.fromObject(serviceTypes).toString());
         return "module/bugly/bugly";
     }
@@ -89,6 +97,13 @@ public class ExceptionController {
             SysUser sysUser = sysUserDao.findByName(username);
             serviceTypes =  serviceTypeDao.findByUserId(sysUser.getId());
         }
+        ServiceType serviceType = new ServiceType();
+        serviceType.setServiceName("全部");
+        serviceType.setCtime(new Date());
+
+        serviceTypes.add(serviceType);
+        serviceTypes.sort(Comparator.comparing(ServiceType::getCtime).reversed());
+
         model.addAttribute("serviceTypes", JSONArray.fromObject(serviceTypes).toString());
         model.addAttribute("exceptionTypeId", id);
         return "module/bugly/detail";

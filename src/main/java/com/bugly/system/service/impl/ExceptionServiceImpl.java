@@ -160,6 +160,12 @@ public class ExceptionServiceImpl implements ExceptionService {
 
     @Override
     public ApiResponse findByCondition(BuglySearchVo buglySearchVo) {
+        if (buglySearchVo.getState() == -1) {
+            buglySearchVo.setState(null);
+        }
+        if (buglySearchVo.getServiceName().equals("全部")) {
+            buglySearchVo.setServiceName(null);
+        }
         List<ExceptionType> exceptionTypes = exceptionTypeDao.findByCondition(buglySearchVo);
         List<ExceptionTypeBo> exceptionTypeBos = new ArrayList<>();
         SimpleDateFormat sf = new SimpleDateFormat(DATE_Y_M_DDHHMMSS);
@@ -228,7 +234,10 @@ public class ExceptionServiceImpl implements ExceptionService {
 
     @Override
     public ApiResponse getDetailsByCondition(BuglyDetailSearchVo buglyDetailSearchVo) {
-        Long startTime = System.currentTimeMillis();
+
+        if (buglyDetailSearchVo.getServiceName().equals("全部")) {
+            buglyDetailSearchVo.setServiceName(null);
+        }
         GetServerLogDto getServerLogDto = new GetServerLogDto();
         BeanUtils.copyProperties(buglyDetailSearchVo, getServerLogDto);
         try {
@@ -393,7 +402,7 @@ public class ExceptionServiceImpl implements ExceptionService {
             }
             if (jsonObject.containsKey("machineAddress")) {
                 String address = (String) jsonObject.get("machineAddress");
-                serviceLog.setMachineAddress(address.substring(address.indexOf("/") + 1));
+                serviceLog.setMachineAddress(address);
             }
             if (jsonObject.containsKey("triggerTime")) {
                 String triggerTime = (String) jsonObject.get("triggerTime");

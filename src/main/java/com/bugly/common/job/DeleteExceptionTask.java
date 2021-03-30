@@ -30,10 +30,13 @@ public class DeleteExceptionTask {
      * 删除异常记录
      */
     @Scheduled(cron="0 0 0/3 * * ?")
-    private void deleteRecord() {
+    private void deleteRecord() throws InterruptedException {
         int num = serviceLogDao.findAllEexNum();
-        if (num > MAX_RECORD_NUM) {
+
+        while (num > MAX_RECORD_NUM) {
             serviceLogDao.deleteData();
+            Thread.sleep(5000);
+            num = serviceLogDao.findAllEexNum();
         }
     }
 

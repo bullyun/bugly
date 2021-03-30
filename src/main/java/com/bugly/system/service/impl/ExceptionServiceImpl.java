@@ -97,8 +97,6 @@ public class ExceptionServiceImpl implements ExceptionService {
             return success(true);
         }
         serviceLog.setExceptionTypeId(exceptionType.getId());
-        serviceLogDao.insert(serviceLog);
-
 
         Date endTime = new Date();
         content.put("buglyHttpUrl", buglyHttpUrl);
@@ -108,6 +106,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         if (sendOrNot(exceptionType.getId(), content)) {
             return success(true);
         }
+        serviceLogDao.insert(serviceLog);
 
         //最近24h发生异常
         int num = serviceLogDao.findNumByToday(exceptionType.getId(), TimeUtils.getOneDayBefore(endTime), endTime);
